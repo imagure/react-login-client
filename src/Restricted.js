@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const base_url = process.env.BASE_URL || 'http://localhost:4000'
+const base_url = 'https://node-base-security.herokuapp.com'
 
 class Register extends Component {
     state = {

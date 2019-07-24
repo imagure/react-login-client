@@ -4,7 +4,8 @@ import './App.css';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
-const base_url = process.env.BASE_URL || 'http://localhost:4000'
+const base_url = 'https://node-base-security.herokuapp.com';
+console.log('BASE_URL: ', base_url)
 
 class App extends Component {
   state = {
@@ -24,6 +25,7 @@ handleLogin = () => {
                    expiresIn:  "12h",
                    name: this.state.name,
                    password: this.state.password};
+  console.log('base_url: ', base_url)
   axios.post(base_url + '/login', payload)
     .then(res => {
       console.log('resLogin: ', res)
