@@ -39,6 +39,7 @@ handleClick = () => {
                         "Content-Type": "application/json;charset=UTF-8",
                         "token": this.state.token
                     }};
+  console.log('base_url: ', base_url)
   axios.post(base_url + '/verify_user', userName, axiosConfig)
       .then(res => {
         console.log('resClick: ', res)
