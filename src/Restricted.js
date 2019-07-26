@@ -4,10 +4,13 @@ import './App.css';
 
 const base_url = 'https://node-base-security.herokuapp.com'
 
-class Register extends Component {
-    state = {
+class Restricted extends Component {
+    constructor(props) {
+      super(props);
+      this.state = {
         users: []
-    };
+      }
+  }
 
     componentDidMount() {
       axios.get(base_url + '/users')
@@ -36,4 +39,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default Restricted;

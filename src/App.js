@@ -5,19 +5,21 @@ import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
 const base_url = 'https://node-base-security.herokuapp.com';
-console.log('BASE_URL: ', base_url)
 
 class App extends Component {
-  state = {
-    name: '',
-    password: '',
-    status:'',
-    users: [],
-    token: '',
-    valid_user: false
-  };
+  constructor(props) {
+      super(props);
+      this.state = {
+        name: '',
+        password: '',
+        status:'',
+        users: [],
+        token: '',
+        valid_user: false
+      }
+  }
 
-handleLogin = () => {
+handleLogin = async () => {
   console.log("handleLogin: ", this.state)
   const payload = {issuer:  'issuer',
                    subject:  'subject',
@@ -26,14 +28,14 @@ handleLogin = () => {
                    name: this.state.name,
                    password: this.state.password};
   console.log('base_url: ', base_url)
-  axios.post(base_url + '/login', payload)
+  await axios.post(base_url + '/login', payload)
     .then(res => {
       console.log('resLogin: ', res)
       this.setState({ token: res.data.token, status: res.data.status})
     })
 }
 
-handleClick = () => {
+handleClick = async () => {
   console.log("handleClick: ", this.state)
   const userName = {name: this.state.name}
   const axiosConfig = {
@@ -42,7 +44,7 @@ handleClick = () => {
                         "token": this.state.token
                     }};
   console.log('base_url: ', base_url)
-  axios.post(base_url + '/verify_user', userName, axiosConfig)
+  await axios.post(base_url + '/verify_user', userName, axiosConfig)
       .then(res => {
         console.log('resClick: ', res)
         this.setState({ valid_user: res.data.status, status: res.data.message })
@@ -51,6 +53,7 @@ handleClick = () => {
 
 render() {
   console.log('render: ', this.state)
+  console.log('renderProps: ', this.props)
   if (this.state.valid_user === true) {
       return <Redirect to='/restricted' />
   }
