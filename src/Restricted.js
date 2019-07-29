@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const base_url = 'https://node-base-security.herokuapp.com'
+const base_url = 'http://localhost:4000'
 
 class Restricted extends Component {
     constructor(props) {
@@ -13,11 +13,15 @@ class Restricted extends Component {
   }
 
     componentDidMount() {
-      axios.get(base_url + '/users')
-        .then(res => {
-          const users = res.data.data;
-          this.setState({ users: users })
-      });
+        this.handleGetUsers()
+    }
+
+    handleGetUsers = async () => {
+        await axios.get(base_url + '/users')
+            .then(res => {
+              const users = res.data.data;
+              this.setState({ users: users })
+          });
     }
 
     render() {

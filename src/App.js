@@ -4,7 +4,7 @@ import './App.css';
 import { Link } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
-const base_url = 'https://node-base-security.herokuapp.com';
+const base_url = 'http://localhost:4000';
 
 class App extends Component {
   constructor(props) {
@@ -28,11 +28,15 @@ handleLogin = async () => {
                    name: this.state.name,
                    password: this.state.password};
   console.log('base_url: ', base_url)
-  await axios.post(base_url + '/login', payload)
+  try{
+    await axios.post(base_url + '/login', payload)
     .then(res => {
       console.log('resLogin: ', res)
       this.setState({ token: res.data.token, status: res.data.status})
     })
+  } catch(err) {
+    console.log(err)
+  }
 }
 
 handleClick = async () => {
@@ -44,11 +48,15 @@ handleClick = async () => {
                         "token": this.state.token
                     }};
   console.log('base_url: ', base_url)
-  await axios.post(base_url + '/verify_user', userName, axiosConfig)
+  try {
+    await axios.post(base_url + '/verify_user', userName, axiosConfig)
       .then(res => {
         console.log('resClick: ', res)
         this.setState({ valid_user: res.data.status, status: res.data.message })
       })
+  } catch(err) {
+    console.log(err)
+  }
 }
 
 render() {

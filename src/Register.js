@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const base_url = 'https://node-base-security.herokuapp.com';
+const base_url = 'http://localhost:4000';
 
 class Register extends Component {
     state = {
@@ -11,7 +11,7 @@ class Register extends Component {
         status:''
     };
 
-    handleCreate = () => {
+    handleCreate = async () => {
         console.log('handler: ', this.state)
         const msg = {name: this.state.name,
                      password: this.state.password};
