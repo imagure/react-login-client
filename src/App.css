@@ -14,7 +14,7 @@
   text-align: center;
   justify-content: center;
   width: 25rem;
-  height: 35rem;
+  height: auto;
   background-color: white;
   border-radius: 15px;
   box-shadow: 10px 10px 17px 0px rgba(0,0,0,0.75);
@@ -40,4 +40,7 @@ h1{
 a{
   text-decoration: none;
   font-size: 1.2rem;
+}
+.App-link{
+  margin-bottom: 1rem
 }

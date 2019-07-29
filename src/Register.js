@@ -15,7 +15,7 @@ class Register extends Component {
         console.log('handler: ', this.state)
         const msg = {name: this.state.name,
                      password: this.state.password};
-        axios.post(base_url + '/new_user', msg)
+       await axios.post(base_url + '/new_user', msg)
             .then(res => {
                 console.log('res_new:',res)
                 const status = res.data.status;
@@ -44,7 +44,7 @@ class Register extends Component {
                             onChange={e => this.setState({ password: e.target.value })}
                         />
                     </form>
-                    <button onClick={this.handleCreate}> Submit </button>
+                    <button disabled={!this.state.name || !this.state.password} onClick={this.handleCreate}> Submit </button>
                     <p>
                         <strong>Status:</strong>
                     </p>

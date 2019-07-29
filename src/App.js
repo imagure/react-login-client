@@ -7,57 +7,51 @@ import { Redirect } from 'react-router-dom'
 const base_url = 'http://localhost:4000';
 
 class App extends Component {
-  constructor(props) {
-      super(props);
-      this.state = {
-        name: '',
-        password: '',
-        status:'',
-        users: [],
-        token: '',
-        valid_user: false
-      }
+  state = {
+    name: '',
+    password: '',
+    status:'',
+    users: [],
+    token: '',
+    valid_user: false
   }
 
-handleLogin = async () => {
-  console.log("handleLogin: ", this.state)
-  const payload = {issuer:  'issuer',
-                   subject:  'subject',
-                   audience:  'audience',
-                   expiresIn:  "12h",
-                   name: this.state.name,
-                   password: this.state.password};
-  console.log('base_url: ', base_url)
-  try{
-    await axios.post(base_url + '/login', payload)
-    .then(res => {
-      console.log('resLogin: ', res)
-      this.setState({ token: res.data.token, status: res.data.status})
-    })
-  } catch(err) {
-    console.log(err)
-  }
-}
-
-handleClick = async () => {
-  console.log("handleClick: ", this.state)
-  const userName = {name: this.state.name}
-  const axiosConfig = {
-                    headers: {
-                        "Content-Type": "application/json;charset=UTF-8",
-                        "token": this.state.token
-                    }};
-  console.log('base_url: ', base_url)
-  try {
-    await axios.post(base_url + '/verify_user', userName, axiosConfig)
+  handleLogin = async () => {
+    console.log("handleLogin: ", this.state)
+    const payload = {name: this.state.name,
+                     password: this.state.password};
+    console.log('base_url: ', base_url)
+    try{
+      await axios.post(base_url + '/login', payload)
       .then(res => {
-        console.log('resClick: ', res)
-        this.setState({ valid_user: res.data.status, status: res.data.message })
+        console.log('resLogin: ', res)
+        this.setState({ token: res.data.token, status: res.data.status})
+        localStorage.setItem('token', res.data.token)
       })
-  } catch(err) {
-    console.log(err)
-  }
+    } catch(err) {
+      console.log(err)
+    }
 }
+
+  handleClick = async () => {
+    console.log("handleClick: ", this.state)
+    const userName = {name: this.state.name}
+    const axiosConfig = {
+                      headers: {
+                          "Content-Type": "application/json;charset=UTF-8",
+                          "token": this.state.token
+                      }};
+    console.log('base_url: ', base_url)
+    try {
+      await axios.post(base_url + '/verify_user', userName, axiosConfig)
+        .then(res => {
+          console.log('resClick: ', res)
+          this.setState({ valid_user: res.data.status, status: res.data.message })
+        })
+    } catch(err) {
+      console.log(err)
+    }
+  }
 
 render() {
   console.log('render: ', this.state)
@@ -89,7 +83,7 @@ render() {
         </p>
         {this.state.status}
         <Link to="/register"> Sign up here </Link>
-        <button onClick={this.handleClick}> Verify </button>
+        <button className="App-link" onClick={this.handleClick}> Verify </button>
        </div>
       </div>
     );

@@ -5,23 +5,30 @@ import './App.css';
 const base_url = 'http://localhost:4000'
 
 class Restricted extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        users: []
-      }
-  }
+    state = {
+      users: []
+    }
 
     componentDidMount() {
         this.handleGetUsers()
     }
 
     handleGetUsers = async () => {
-        await axios.get(base_url + '/users')
+        const token = localStorage.getItem('token')
+        console.log('token: ', token)
+        const axiosConfig = {
+                      headers: {
+                          "Content-Type": "application/json;charset=UTF-8",
+                          "token": token
+                      }};
+        await axios.get(base_url + '/users', axiosConfig)
             .then(res => {
-              const users = res.data.data;
-              this.setState({ users: users })
-          });
+              if (res.data.status){
+                this.setState({ users: res.data.data })
+              } else {
+                this.setState({ users: [{name:'Please Login first.'}] })
+              }
+        });
     }
 
     render() {
